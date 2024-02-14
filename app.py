@@ -24,7 +24,7 @@ def update_json(key, value):
 
 
 
-client = TelegramClient('Sessions/mohobo', config['api_id'], config['api_hash'])
+client = TelegramClient("Sessions/"+config['session_name'], config['api_id'], config['api_hash'])
 client.start()
 for message in client.get_messages(config['channel_username'], limit=100):
     #message.meida to json
@@ -48,7 +48,7 @@ for message in client.get_messages(config['channel_username'], limit=100):
                 match = re.search(r'Esign Link:(.*)', rawMessage)
                 if match:
                     esignURL = match.group(1).strip()
-                # print(esignURL)
+                print(Cername,status)
                 update_json(Cername, {"status": "Good", "esignURL": esignURL})
             else:
                 #remove file
