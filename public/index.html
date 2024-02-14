@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Certificate AppleP12 List</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Certificate AppleP12 List</h1>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Download</th>
+                            <th>Esign URL</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cerTableBody">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+            $(document).ready(function() {
+                $.ajax({
+                    url: '/api/cer',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        const cerTableBody = $('#cerTableBody');
+                        $.each(data, function(key, cer) {
+                            const row = $('<tr>');
+                            const nameCell = $('<td>').text(key);
+                            const statusCell = $('<td>').text(cer.status);
+                            const downloadCell = $('<td>');
+                            const downloadLink = $('<a>').attr('href', `/api/download/${key}`).text('Download');
+                            downloadCell.append(downloadLink);
+                            const EsignLink = $('<a>').attr('href', cer.esignURL).text('Download');
+                            const esignURLCell = $('<td>')
+                            esignURLCell.append(EsignLink);
+                            row.append(nameCell, statusCell, downloadCell, esignURLCell);
+                            cerTableBody.append(row);
+                        });
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+    </script>
+        
+    </script>
+</body>
+</html>
